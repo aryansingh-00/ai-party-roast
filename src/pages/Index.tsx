@@ -5,22 +5,44 @@ import PlayerRegistration from "@/components/PlayerRegistration";
 import GameScreen from "@/components/GameScreen";
 import GameHeader from "@/components/GameHeader";
 
+interface PlayerScore {
+  name: string;
+  truths: number;
+  lies: number;
+}
+
 const Index = () => {
-  const [players, setPlayers] = useState<string[]>([]);
+  const [playerScores, setPlayerScores] = useState<PlayerScore[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 
   const handlePlayerJoin = (name: string) => {
     // Check if player already exists
-    if (players.includes(name)) {
-      // Could show a toast here, but let's just add the name with a number
-      setPlayers([...players, `${name} ${players.filter(p => p.startsWith(name)).length + 1}`]);
+    if (playerScores.some(p => p.name === name)) {
+      const newName = `${name} ${playerScores.filter(p => p.name.startsWith(name)).length + 1}`;
+      setPlayerScores([...playerScores, { name: newName, truths: 0, lies: 0 }]);
     } else {
-      setPlayers([...players, name]);
+      setPlayerScores([...playerScores, { name, truths: 0, lies: 0 }]);
     }
   };
 
   const handleNextPlayer = () => {
-    setCurrentPlayerIndex((prev) => (prev + 1) % players.length);
+    setCurrentPlayerIndex((prev) => (prev + 1) % playerScores.length);
+  };
+
+  const updatePlayerScore = (isTrue: boolean) => {
+    setPlayerScores(prevScores => prevScores.map((player, idx) => 
+      idx === currentPlayerIndex 
+        ? { 
+            ...player, 
+            truths: isTrue ? player.truths + 1 : player.truths,
+            lies: !isTrue ? player.lies + 1 : player.lies
+          }
+        : player
+    ));
+  };
+
+  const showAddPlayerForm = () => {
+    // This will show the player registration form without clearing existing players
   };
 
   return (
@@ -29,7 +51,7 @@ const Index = () => {
         <GameHeader />
         
         <Card className="p-6 my-6 shadow-lg">
-          {players.length === 0 ? (
+          {playerScores.length === 0 ? (
             <div className="space-y-6">
               <p className="text-center text-lg mb-4">
                 Welcome to the most hilarious lie detector party game!
@@ -38,13 +60,13 @@ const Index = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {players.length < 2 ? (
+              {playerScores.length < 2 ? (
                 <div className="space-y-4">
                   <div className="text-center py-2">
-                    <p className="text-lg font-bold">Players ({players.length}):</p>
+                    <p className="text-lg font-bold">Players ({playerScores.length}):</p>
                     <ul className="my-2">
-                      {players.map((player, idx) => (
-                        <li key={idx} className="text-md">{player}</li>
+                      {playerScores.map((player, idx) => (
+                        <li key={idx} className="text-md">{player.name}</li>
                       ))}
                     </ul>
                     <p className="text-sm text-muted-foreground mt-4">
@@ -55,23 +77,20 @@ const Index = () => {
                 </div>
               ) : (
                 <GameScreen
-                  currentPlayer={players[currentPlayerIndex]}
-                  allPlayers={players}
+                  currentPlayer={playerScores[currentPlayerIndex].name}
+                  currentPlayerScore={playerScores[currentPlayerIndex]}
+                  allPlayers={playerScores}
                   onNextPlayer={handleNextPlayer}
+                  onUpdateScore={updatePlayerScore}
                 />
               )}
             </div>
           )}
         </Card>
         
-        {players.length > 0 && (
+        {playerScores.length > 0 && (
           <div className="text-center mt-4">
-            <button
-              onClick={() => handlePlayerJoin("")}
-              className="text-sm text-primary underline hover:text-primary/80"
-            >
-              Add Another Player
-            </button>
+            <PlayerRegistration onPlayerJoin={handlePlayerJoin} buttonLabel="Add Another Player" />
           </div>
         )}
       </div>

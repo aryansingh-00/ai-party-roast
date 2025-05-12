@@ -3,11 +3,20 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
+
+interface PlayerScore {
+  name: string;
+  truths: number;
+  lies: number;
+}
 
 interface GameScreenProps {
   currentPlayer: string;
-  allPlayers: string[];
+  currentPlayerScore: PlayerScore;
+  allPlayers: PlayerScore[];
   onNextPlayer: () => void;
+  onUpdateScore: (isTrue: boolean) => void;
 }
 
 // Sample questions bank
@@ -56,7 +65,13 @@ const generateRoastMessage = (name: string, question: string, wasLying: boolean)
   return responseArray[Math.floor(Math.random() * responseArray.length)];
 };
 
-const GameScreen = ({ currentPlayer, allPlayers, onNextPlayer }: GameScreenProps) => {
+const GameScreen = ({ 
+  currentPlayer, 
+  currentPlayerScore,
+  allPlayers, 
+  onNextPlayer,
+  onUpdateScore 
+}: GameScreenProps) => {
   const [question, setQuestion] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [isGeneratingResult, setIsGeneratingResult] = useState(false);
@@ -102,6 +117,9 @@ const GameScreen = ({ currentPlayer, allPlayers, onNextPlayer }: GameScreenProps
       const isLying = Math.random() > 0.5;
       setIsTruth(!isLying);
       
+      // Update the player score
+      onUpdateScore(!isLying);
+      
       // Play appropriate sound
       if (isLying) {
         lieSoundRef.current?.play().catch(error => {
@@ -135,9 +153,40 @@ const GameScreen = ({ currentPlayer, allPlayers, onNextPlayer }: GameScreenProps
         <h2 className="text-2xl font-bold mb-1">
           {currentPlayer}'s Turn
         </h2>
-        <p className="text-sm text-muted-foreground">
+        <div className="flex justify-center items-center gap-2">
+          <Badge variant="secondary" className="bg-green-100 text-green-800">
+            Truths: {currentPlayerScore.truths}
+          </Badge>
+          <Badge variant="secondary" className="bg-red-100 text-red-800">
+            Lies: {currentPlayerScore.lies}
+          </Badge>
+        </div>
+        <p className="text-sm text-muted-foreground mt-2">
           {allPlayers.length} player{allPlayers.length !== 1 ? "s" : ""} in the game
         </p>
+      </div>
+      
+      {/* Scoreboard */}
+      <div className="bg-accent/20 rounded-lg p-2 text-sm">
+        <p className="text-center font-medium mb-1">Scoreboard</p>
+        <div className="grid grid-cols-3 gap-1 text-xs">
+          <div className="font-semibold">Player</div>
+          <div className="font-semibold text-center text-green-600">Truths</div>
+          <div className="font-semibold text-center text-red-600">Lies</div>
+          {allPlayers.map((player, idx) => (
+            <>
+              <div key={`name-${idx}`} className={`${player.name === currentPlayer ? "font-bold" : ""}`}>
+                {player.name}
+              </div>
+              <div key={`truths-${idx}`} className="text-center">
+                {player.truths}
+              </div>
+              <div key={`lies-${idx}`} className="text-center">
+                {player.lies}
+              </div>
+            </>
+          ))}
+        </div>
       </div>
       
       <Card className="p-6 shadow-lg">

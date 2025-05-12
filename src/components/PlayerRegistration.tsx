@@ -6,9 +6,10 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface PlayerRegistrationProps {
   onPlayerJoin: (name: string) => void;
+  buttonLabel?: string;
 }
 
-const PlayerRegistration = ({ onPlayerJoin }: PlayerRegistrationProps) => {
+const PlayerRegistration = ({ onPlayerJoin, buttonLabel = "Join Game" }: PlayerRegistrationProps) => {
   const [playerName, setPlayerName] = useState("");
   const { toast } = useToast();
 
@@ -30,7 +31,9 @@ const PlayerRegistration = ({ onPlayerJoin }: PlayerRegistrationProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-xs mx-auto">
-      <h2 className="text-xl font-bold text-center">Join the Game!</h2>
+      {buttonLabel === "Join Game" && (
+        <h2 className="text-xl font-bold text-center">Join the Game!</h2>
+      )}
       <Input
         placeholder="Enter your name"
         value={playerName}
@@ -41,7 +44,7 @@ const PlayerRegistration = ({ onPlayerJoin }: PlayerRegistrationProps) => {
         type="submit" 
         className="w-full bg-primary hover:bg-primary/80"
       >
-        Join Game
+        {buttonLabel}
       </Button>
     </form>
   );
