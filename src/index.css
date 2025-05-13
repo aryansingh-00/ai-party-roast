@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,36 +34,6 @@
     --ring: 252 56% 57%;
 
     --radius: 0.75rem;
-  }
- 
-  .dark {
-    --background: 0 0% 0%;  /* Pure black background */
-    --foreground: 0 0% 100%;  /* Pure white text */
-
-    --card: 0 0% 0%;  /* Black cards */
-    --card-foreground: 0 0% 100%;  /* White text on cards */
-
-    --popover: 0 0% 0%;  /* Black popovers */
-    --popover-foreground: 0 0% 100%;  /* White text on popovers */
-
-    --primary: 252 56% 57%;  /* Keep primary color */
-    --primary-foreground: 0 0% 100%;  /* White text on primary */
-
-    --secondary: 240 3.7% 15.9%;  /* Dark secondary */
-    --secondary-foreground: 0 0% 100%;  /* White text on secondary */
-
-    --muted: 0 0% 15%;  /* Dark muted */
-    --muted-foreground: 0 0% 70%;  /* Light gray text on muted */
-
-    --accent: 191 97% 77%;  /* Keep accent color */
-    --accent-foreground: 0 0% 0%;  /* Black text on accent */
-
-    --destructive: 0 62.8% 30.6%;  /* Dark red */
-    --destructive-foreground: 0 0% 100%;  /* White text on destructive */
-
-    --border: 0 0% 20%;  /* Dark borders */
-    --input: 0 0% 20%;  /* Dark inputs */
-    --ring: 252 56% 57%;  /* Keep ring color */
   }
 }
 

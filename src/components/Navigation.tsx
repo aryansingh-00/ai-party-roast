@@ -8,19 +8,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Menu, Home, Book } from "lucide-react";
-import { useTheme } from "next-themes";
 import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme } = useTheme();
   const location = useLocation();
   
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border p-2">
-      <div className="container max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-bold tracking-tight">TruthOrFib</span>
+      <div className="container flex items-center justify-between">
+        <div className="text-xl font-bold">
+          <Link to="/">MyApp</Link>
         </div>
         
         <div className="flex items-center gap-4">
@@ -46,14 +44,14 @@ const Navigation = () => {
           </div>
           
           <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="sm:hidden">
               <Button 
-                size="icon" 
-                variant="ghost" 
-                className="sm:hidden"
-                aria-label="Navigation Menu"
+                variant="outline"
+                size="icon"
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
