@@ -7,13 +7,14 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Menu, Info, Settings, Users } from "lucide-react";
+import { Menu, Home, Book } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme } = useTheme();
+  const location = useLocation();
   
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border p-2">
@@ -24,11 +25,23 @@ const Navigation = () => {
         
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-4">
-            <Button variant="ghost" asChild>
-              <Link to="/">Home</Link>
+            <Button 
+              variant={location.pathname === "/" ? "default" : "ghost"}
+              asChild
+            >
+              <Link to="/">
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Link>
             </Button>
-            <Button variant="ghost" asChild>
-              <Link to="/rules">Rules</Link>
+            <Button 
+              variant={location.pathname === "/rules" ? "default" : "ghost"}
+              asChild
+            >
+              <Link to="/rules">
+                <Book className="h-4 w-4 mr-2" />
+                Rules
+              </Link>
             </Button>
           </div>
           
@@ -45,10 +58,16 @@ const Navigation = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuItem asChild>
-                <Link to="/" className="w-full cursor-pointer">Home</Link>
+                <Link to="/" className="w-full cursor-pointer flex items-center">
+                  <Home className="h-4 w-4 mr-2" />
+                  Home
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/rules" className="w-full cursor-pointer">Rules</Link>
+                <Link to="/rules" className="w-full cursor-pointer flex items-center">
+                  <Book className="h-4 w-4 mr-2" />
+                  Rules
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
