@@ -18,7 +18,7 @@ const Navigation = () => {
     <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border p-2">
       <div className="container flex items-center justify-between">
         <div className="text-xl font-bold">
-          <Link to="/">MyApp</Link>
+          <Link to="/">Truth or Fib</Link>
         </div>
         
         <div className="flex items-center gap-4">
