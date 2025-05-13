@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import PlayerRegistration from "@/components/PlayerRegistration";
 import GameScreen from "@/components/GameScreen";
 import GameHeader from "@/components/GameHeader";
+import Footer from "@/components/Footer";
 
 interface PlayerScore {
   name: string;
@@ -41,16 +42,12 @@ const Index = () => {
     ));
   };
 
-  const showAddPlayerForm = () => {
-    // This will show the player registration form without clearing existing players
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-accent/10 p-4">
-      <div className="container max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-background to-accent/10">
+      <div className="container max-w-md mx-auto pt-20 pb-10 px-4">
         <GameHeader />
         
-        <Card className="p-6 my-6 shadow-lg">
+        <Card className="p-6 my-6 shadow-lg scale-in">
           {playerScores.length === 0 ? (
             <div className="space-y-6">
               <p className="text-center text-lg mb-4">
@@ -94,6 +91,7 @@ const Index = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

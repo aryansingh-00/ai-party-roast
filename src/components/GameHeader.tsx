@@ -1,16 +1,21 @@
 
-import React from "react";
+import { motion } from "framer-motion";
 
 const GameHeader = () => {
   return (
-    <header className="text-center py-6">
-      <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-        AI Party Lie Detector
+    <motion.div 
+      className="text-center py-2"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        Truth or Fib
       </h1>
       <p className="text-muted-foreground mt-2">
-        Can you fool the lie detector? Probably not!
+        The ultimate party game of truths and lies
       </p>
-    </header>
+    </motion.div>
   );
 };
 
